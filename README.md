@@ -14,6 +14,8 @@ sbt:
 "com.m3" %% "enumlike" % "0.1"
 ```
 
+See `version.sbt` for latest version.
+
 ## History
 
 First implemented in Atlas by Gaku-san (@ma-nakumura). 
