@@ -11,14 +11,14 @@ See the tests for details.
 sbt:
 
 ```
-"com.m3" %% "enumlike" % "0.1"
+"com.m3" %% "enumlike" % "0.2"
 ```
 
 See `version.sbt` for latest version.
 
 ## History
 
-First implemented in Atlas by Gaku-san (@ma-nakumura). 
+First implemented in Atlas by Gaku-san (@ma-nakamura). 
 
 Spun out into a separate library by Chris (@c-birchall).
 
