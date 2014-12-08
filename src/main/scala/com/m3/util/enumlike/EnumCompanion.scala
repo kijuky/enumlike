@@ -1,9 +1,18 @@
 package com.m3.util.enumlike
+
 import play.api.libs.json._
+import enumeratum.EnumMacros
+
+import scala.language.experimental.macros
 
 trait EnumCompanion[A <: EnumLike] {
 
   def values: IndexedSeq[A]
+
+  /**
+   * Note: no guarantees are made about ordering, so this method returns a `Set`
+   */
+  protected def findValues: Set[A] = macro EnumMacros.findValuesImpl[A]
 
   def valueOf(value: A#ValueType): Option[A] = values.find(_.value == value)
 
