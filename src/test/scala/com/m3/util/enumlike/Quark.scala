@@ -11,6 +11,6 @@ object Quark extends EnumCompanion[Quark] {
   case object Bottom extends Quark
   case object Top extends Quark
 
-  def values = findValues.toIndexedSeq
+  val values = findValues.toIndexedSeq
 
 }
