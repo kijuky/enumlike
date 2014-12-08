@@ -23,6 +23,7 @@ object EnumLikeBuild extends Build {
       .withCachedResolution(true),
     libraryDependencies := Seq(
       "com.typesafe.play" %% "play-ws" % thePlayVersion, // this library depends on play-json and Play MVC
+      "com.beachape" %% "enumeratum-macros" % "0.0.4",
       "com.typesafe.play" %% "play-test" % thePlayVersion % "test",
       "org.scalatestplus" %% "play" % "1.2.0" % "test",
       "org.scalatest" %% "scalatest" % "2.2.2" % "test"
