@@ -20,7 +20,7 @@ trait CustomFormatterBuilders {
   def enumLikeFormatter[E <: EnumLike](implicit ev: EnumCompanion[E], base: Formatter[E#ValueType], tag: ClassTag[E]) = new Formatter[E] {
     def bind(key: String, data: Map[String, String]): Either[Seq[FormError], E] = {
       base.bind(key, data) match {
-        case Right(v) => ev.values.find(_.value == v) match {
+        case Right(v) => ev.valueOf(v) match {
           case None => Left(Seq(FormError(key, "error.invalid.enum", Seq(tag.runtimeClass.getName))))
           case Some(e) => Right(e)
         }
