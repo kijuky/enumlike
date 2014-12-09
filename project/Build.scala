@@ -9,7 +9,7 @@ import scala.language.postfixOps
 
 object EnumLikeBuild extends Build {
   val theScalaVersion = "2.11.4"
-  val thePlayVersion = "2.3.6"
+  val thePlayVersion = "2.3.7"
 
   val m3Resolver = "M3 internal Artifactory" at "http://maven:8081/artifactory/repo"
 
@@ -23,7 +23,7 @@ object EnumLikeBuild extends Build {
       .withCachedResolution(true),
     libraryDependencies := Seq(
       "com.typesafe.play" %% "play-ws" % thePlayVersion, // this library depends on play-json and Play MVC
-      "com.beachape" %% "enumeratum-macros" % "0.0.4",
+      "com.beachape" %% "enumeratum-macros" % "0.0.5",
       "com.typesafe.play" %% "play-test" % thePlayVersion % "test",
       "org.scalatestplus" %% "play" % "1.2.0" % "test",
       "org.scalatest" %% "scalatest" % "2.2.2" % "test"
