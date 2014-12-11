@@ -7,17 +7,7 @@ import scala.reflect.ClassTag
 
 trait CustomFormatterBuilders {
 
-  def enumFormatter[E <: Enumeration](e: E) = new Formatter[E#Value] {
-    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], E#Value] =
-      data.get(key).flatMap(s => e.values.find(_.toString == s)) match {
-        case Some(v) => Right(v)
-        case None => Left(Seq(FormError(key, "error.invalid.enum", Seq(e.getClass.getName))))
-      }
-
-    def unbind(key: String, value: E#Value): Map[String, String] = Map(key -> value.toString)
-  }
-
-  def enumLikeFormatter[E <: EnumLike](implicit ev: EnumCompanion[E], base: Formatter[E#ValueType], tag: ClassTag[E]) = new Formatter[E] {
+  implicit def enumLikeFormatter[E <: EnumLike](implicit ev: EnumCompanion[E], base: Formatter[E#ValueType], tag: ClassTag[E]) = new Formatter[E] {
     def bind(key: String, data: Map[String, String]): Either[Seq[FormError], E] = {
       base.bind(key, data) match {
         case Right(v) => ev.valueOf(v) match {
