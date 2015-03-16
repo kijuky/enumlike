@@ -2,7 +2,6 @@ package com.m3.util.enumlike
 
 import com.m3.util.enumlike.Beatle._
 import org.scalatest.{ Matchers, FlatSpec }
-import play.api.libs.json.{ JsSuccess, JsString, Json }
 
 class EnumCompanionSpec extends FlatSpec with Matchers {
 
@@ -14,16 +13,6 @@ class EnumCompanionSpec extends FlatSpec with Matchers {
 
   it should "return None if passed an unknown string" in {
     Beatle.valueOf("Georgina") should be(None)
-  }
-
-  behavior of "JSON serialization"
-
-  it should "serialize to a JSON string" in {
-    Json.toJson(Ringo) should be(JsString("Ringo"))
-  }
-
-  it should "deserialize from a JSON string" in {
-    Json.fromJson(JsString("Ringo")) should be(JsSuccess(Ringo))
   }
 
   behavior of "ordering"

@@ -8,32 +8,59 @@ import sbtrelease.ReleasePlugin._
 import scala.language.postfixOps
 
 object EnumLikeBuild extends Build {
-  val theScalaVersion = "2.11.4"
+  val theScalaVersion = "2.11.6"
   val thePlayVersion = "2.3.7"
 
   val m3Resolver = "M3 internal Artifactory" at "http://maven:8081/artifactory/repo"
 
-  lazy val enumLike = Project(id = "enumlike", base = file("."), settings = scalariformSettings ++ publishSettings ++ releaseSettings).settings(
+  val commonSettings = Seq(
     organization := "com.m3",
-    name := "enumlike",
     scalaVersion := theScalaVersion,
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xlint"),
     updateOptions := updateOptions.value
       .withCircularDependencyLevel(CircularDependencyLevel.Error)
-      .withCachedResolution(true),
-    libraryDependencies := Seq(
-      "com.typesafe.play" %% "play-ws" % thePlayVersion, // this library depends on play-json and Play MVC
-      "com.beachape" %% "enumeratum-macros" % "0.0.5",
-      "com.typesafe.play" %% "play-test" % thePlayVersion % "test",
-      "org.scalatestplus" %% "play" % "1.2.0" % "test",
-      "org.scalatest" %% "scalatest" % "2.2.2" % "test"
-    ).map(_.excludeAll(
-        ExclusionRule(name = "slf4j-log4j12"),
-        ExclusionRule(name = "slf4j-jdk14"),
-        ExclusionRule(name = "slf4j-jcl"),
-        ExclusionRule(name = "slf4j-nop"),
-        ExclusionRule(name = "slf4j-simple")))
+      .withCachedResolution(true)
+  ) ++ scalariformSettings ++ publishSettings ++ releaseSettings
+
+  val excludes = Seq(
+    ExclusionRule(name = "slf4j-log4j12"),
+    ExclusionRule(name = "slf4j-jdk14"),
+    ExclusionRule(name = "slf4j-jcl"),
+    ExclusionRule(name = "slf4j-nop"),
+    ExclusionRule(name = "slf4j-simple")
   )
+
+  lazy val core = Project(id = "enumlike", base = file("core"))
+    .settings(commonSettings:_*)
+    .settings(
+      name := "enumlike",
+      libraryDependencies := Seq(
+        "com.beachape"  %% "enumeratum-macros" % "0.0.5",
+        "org.scalatest" %% "scalatest"         % "2.2.2"   % "test"
+      ).map(_.excludeAll(excludes:_*))
+    )
+
+  lazy val play = Project(id = "enumlike-play", base = file("play"))
+    .settings(commonSettings:_*)
+    .settings(
+      name := "enumlike-play",
+      libraryDependencies := Seq(
+        "com.typesafe.play" %% "play-ws"   % thePlayVersion, // this library depends on play-json and Play MVC
+        "com.typesafe.play" %% "play-test" % thePlayVersion % "test",
+        "org.scalatestplus" %% "play"      % "1.2.0"        % "test",
+        "org.scalatest"     %% "scalatest" % "2.2.2"        % "test"
+      ).map(_.excludeAll(excludes:_*))
+    ).dependsOn(core % "compile->compile;test->test")
+
+  lazy val scalikejdbc = Project(id = "enumlike-scalikejdbc", base = file("scalikejdbc"))
+    .settings(commonSettings:_*)
+    .settings(
+      name := "enumlike-scalikejdbc",
+      libraryDependencies := Seq(
+        "org.scalikejdbc" %% "scalikejdbc" % "2.2.4",
+        "org.scalatest"   %% "scalatest"   % "2.2.2" % "test"
+      ).map(_.excludeAll(excludes:_*))
+    ).dependsOn(core % "compile->compile;test->test")
 
   lazy val publishSettings = aetherPublishSettings :+
     (publishTo <<= version { (v: String) =>
