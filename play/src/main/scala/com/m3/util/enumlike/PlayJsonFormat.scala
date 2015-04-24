@@ -5,6 +5,6 @@ import play.api.libs.json._
 trait PlayJsonFormat[E <: EnumLike] {
   self: EnumCompanion[E] =>
 
-  implicit def jsonFormat(implicit f: Format[E#ValueType]): Format[E] = PlayJsonFormatter.jsonFormat
+  implicit def enumlikeJsonFormat(implicit f: Format[E#ValueType]): Format[E] = PlayJsonFormatter.enumlikeJsonFormat
 
 }
