@@ -19,7 +19,7 @@ class CustomFormatterBuildersSpec extends FunSpec with Matchers with CustomForma
       override def toString = "NOT D"
     }
 
-    val values = findValues.toIndexedSeq
+    val values = findValues
   }
 
   describe("enumLikeFormatter") {
