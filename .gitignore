@@ -1,8 +1,5 @@
-project/project
-project/target
 target
 tmp
-.history
 dist
 /.idea
 /*.iml
@@ -12,5 +9,3 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-project
-target
