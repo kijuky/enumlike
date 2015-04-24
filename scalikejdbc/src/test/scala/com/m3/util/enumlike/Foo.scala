@@ -1,7 +1,7 @@
 package com.m3.util.enumlike
 
 sealed trait Foo extends StringEnumLike
-object Foo extends EnumCompanion[Foo] with ScalikeJDBCTypeBinder {
+object Foo extends EnumCompanion[Foo] with ScalikeJDBCTypeBinder[Foo] {
 
   case object Aaa extends Foo
   case object Bbb extends Foo

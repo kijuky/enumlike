@@ -4,7 +4,7 @@ import com.m3.util.enumlike.Beatle._
 import org.scalatest.{ FlatSpec, Matchers }
 import play.api.mvc.{ PathBindable, QueryStringBindable }
 
-class CustomBinderBuildersSpec extends FlatSpec with Matchers with CustomBinderBuilders {
+class CustomBinderBuildersSpec extends FlatSpec with Matchers with PlayFormatter {
 
   behavior of "#enumLikePathBindable"
 

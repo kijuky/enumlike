@@ -3,11 +3,11 @@ package com.m3.util.enumlike
 import org.scalatest.{ FunSpec, Matchers }
 import play.api.data.format.Formatter
 
-class CustomFormatterBuildersSpec extends FunSpec with Matchers with CustomFormatterBuilders {
+class CustomFormatterBuildersSpec extends FunSpec with Matchers {
 
   private sealed trait E extends StringEnumLike
 
-  private object E extends EnumCompanion[E] {
+  private object E extends EnumCompanion[E] with PlayFormat[E] {
 
     case object A extends E
 
