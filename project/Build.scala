@@ -62,9 +62,9 @@ object EnumLikeBuild extends Build {
     ).dependsOn(core % "compile->compile;test->test")
 
   lazy val root = Project(id = "aggregate", base = file("."))
+    .settings(commonSettings:_*)
     .settings(
-      publishArtifact := false,
-      scalaVersion := theScalaVersion)
+      publishArtifact := false)
     .aggregate(core, play, scalikejdbc)
 
   lazy val publishSettings = aetherPublishSettings :+
