@@ -61,6 +61,12 @@ object EnumLikeBuild extends Build {
       ).map(_.excludeAll(excludes:_*))
     ).dependsOn(core % "compile->compile;test->test")
 
+  lazy val root = Project(id = "aggregate", base = file("."))
+    .settings(
+      publishArtifact := false,
+      scalaVersion := theScalaVersion)
+    .aggregate(core, play, scalikejdbc)
+
   lazy val publishSettings = aetherPublishSettings :+
     (publishTo <<= version { (v: String) =>
       val base = "http://maven:8081/artifactory/"
