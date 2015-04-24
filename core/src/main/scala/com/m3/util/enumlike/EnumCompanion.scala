@@ -8,12 +8,17 @@ trait EnumCompanion[A <: EnumLike] extends EssentialEnumCompanion {
 
   type EnumLikeType = A
 
-  def values: IndexedSeq[A]
+  /**
+   * You must override this with when implementing this trait, when the [[A]] type is concretely defined.
+   *
+   * E.g. <code>(lazy) val values = findValues</code>
+   */
+  val values: IndexedSeq[A]
 
   /**
-   * Note: no guarantees are made about ordering, so this method returns a `Set`
+   * Actual order is the declaration order.
    */
-  protected def findValues: Set[A] = macro EnumMacros.findValuesImpl[A]
+  protected final def findValues: IndexedSeq[A] = macro EnumMacros.findValuesImpl[A]
 
   def valueOf(value: A#ValueType): Option[A] = values.find(_.value == value)
 

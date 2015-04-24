@@ -7,6 +7,6 @@ object Foo extends EnumCompanion[Foo] with PlayJsonFormat {
   case object Bbb extends Foo
   case object Ccc extends Foo
 
-  val values = IndexedSeq(Aaa, Bbb, Ccc)
+  val values = findValues
 
 }

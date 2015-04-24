@@ -8,12 +8,10 @@ import sbtrelease.ReleasePlugin._
 import scala.language.postfixOps
 
 object EnumLikeBuild extends Build {
-  val theScalaVersion = "2.11.6"
-  val thePlayVersion = "2.3.7"
+  private val theScalaVersion = "2.11.6"
+  private val thePlayVersion = "2.3.8"
 
-  val m3Resolver = "M3 internal Artifactory" at "http://maven:8081/artifactory/repo"
-
-  val commonSettings = Seq(
+  private val commonSettings = Seq(
     organization := "com.m3",
     scalaVersion := theScalaVersion,
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xlint"),
@@ -22,7 +20,7 @@ object EnumLikeBuild extends Build {
       .withCachedResolution(true)
   ) ++ scalariformSettings ++ publishSettings ++ releaseSettings
 
-  val excludes = Seq(
+  def excludes = Seq(
     ExclusionRule(name = "slf4j-log4j12"),
     ExclusionRule(name = "slf4j-jdk14"),
     ExclusionRule(name = "slf4j-jcl"),
@@ -35,8 +33,8 @@ object EnumLikeBuild extends Build {
     .settings(
       name := "enumlike",
       libraryDependencies := Seq(
-        "com.beachape"  %% "enumeratum-macros" % "0.0.5",
-        "org.scalatest" %% "scalatest"         % "2.2.2"   % "test"
+        "com.beachape"  %% "enumeratum-macros" % "1.2.1",
+        "org.scalatest" %% "scalatest"         % "2.2.4"   % "test"
       ).map(_.excludeAll(excludes:_*))
     )
 
@@ -45,10 +43,11 @@ object EnumLikeBuild extends Build {
     .settings(
       name := "enumlike-play",
       libraryDependencies := Seq(
-        "com.typesafe.play" %% "play-ws"   % thePlayVersion, // this library depends on play-json and Play MVC
+        "com.typesafe.play" %% "play"   % thePlayVersion,
+        "com.typesafe.play" %% "play-json"   % thePlayVersion,
         "com.typesafe.play" %% "play-test" % thePlayVersion % "test",
         "org.scalatestplus" %% "play"      % "1.2.0"        % "test",
-        "org.scalatest"     %% "scalatest" % "2.2.2"        % "test"
+        "org.scalatest"     %% "scalatest" % "2.2.4"        % "test"
       ).map(_.excludeAll(excludes:_*))
     ).dependsOn(core % "compile->compile;test->test")
 
@@ -57,8 +56,8 @@ object EnumLikeBuild extends Build {
     .settings(
       name := "enumlike-scalikejdbc",
       libraryDependencies := Seq(
-        "org.scalikejdbc" %% "scalikejdbc" % "2.2.4",
-        "org.scalatest"   %% "scalatest"   % "2.2.2" % "test"
+        "org.scalikejdbc" %% "scalikejdbc" % "2.2.6",
+        "org.scalatest"   %% "scalatest"   % "2.2.4" % "test"
       ).map(_.excludeAll(excludes:_*))
     ).dependsOn(core % "compile->compile;test->test")
 
