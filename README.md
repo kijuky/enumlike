@@ -2,7 +2,7 @@
 
 A hybrid of sealed traits with `Enumeration`-like properties. The best of both worlds!
 
-Includes play-json formats and Play path/query string binders.
+Includes play-json formats and Play path/query string binders, as well as scalikejdbc binders.
 
 ## Usage
 
@@ -11,7 +11,7 @@ See the tests for details.
 sbt:
 
 ```
-"com.m3" %% "enumlike" % "0.2"
+"com.m3" %% "enumlike" % "0.6"
 ```
 
 See `version.sbt` for latest version.
