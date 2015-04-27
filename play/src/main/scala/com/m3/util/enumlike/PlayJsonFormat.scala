@@ -2,9 +2,14 @@ package com.m3.util.enumlike
 
 import play.api.libs.json._
 
-trait PlayJsonFormat[E <: EnumLike] {
-  self: EnumCompanion[E] =>
+trait PlayJsonFormat {
+  self: EssentialEnumCompanion =>
 
-  implicit def enumlikeJsonFormat(implicit f: Format[E#ValueType]): Format[E] = PlayJsonFormatter.enumlikeJsonFormat
+  implicit def enumlikeJsonFormat(implicit f: Format[EnumLikeType#ValueType]): Format[EnumLikeType] = {
+    Format[EnumLikeType](
+      PlayJsonFormatter.enumlikeJsonReads(f, self),
+      PlayJsonFormatter.enumlikeJsonWrites(f)
+    )
+  }
 
 }

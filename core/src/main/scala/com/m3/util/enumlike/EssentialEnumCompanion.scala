@@ -6,4 +6,6 @@ trait EssentialEnumCompanion {
 
   def valueOf(value: EnumLikeType#ValueType): Option[EnumLikeType]
 
+  def values: IndexedSeq[EnumLikeType]
+
 }

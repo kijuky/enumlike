@@ -7,17 +7,22 @@ import play.api.libs.json._
  */
 trait PlayJsonFormatter {
 
-  implicit def enumlikeJsonWrites[E <: EnumLike](implicit w: Writes[E#ValueType]): Writes[E] = Writes[E] {
-    e => w.writes(e.value)
-  }
-
-  implicit def enumlikeJsonReads[E <: EnumLike](implicit r: Reads[E#ValueType], c: EnumCompanion[E]): Reads[E] = Reads[E] {
+  private[enumlike] def enumlikeJsonReads[E <: EnumLike](implicit r: Reads[E#ValueType], c: EssentialEnumCompanion { type EnumLikeType = E }): Reads[E] = Reads[E] {
     r.reads(_).flatMap { value =>
       c.valueOf(value).fold[JsResult[E]](JsError(s"Could not convert $value"))(JsSuccess(_, JsPath()))
     }
   }
 
-  implicit def enumlikeJsonFormat[E <: EnumLike](implicit f: Format[E#ValueType], c: EnumCompanion[E]): Format[E] = Format[E](enumlikeJsonReads, enumlikeJsonWrites)
+  private[enumlike] def enumlikeJsonWrites[E <: EnumLike](implicit w: Writes[E#ValueType]): Writes[E] = Writes[E] {
+    e => w.writes(e.value)
+  }
+
+  implicit def enumlikeJsonFormat[E <: EnumLike](implicit r: Reads[E#ValueType], w: Writes[E#ValueType], c: EnumCompanion[E]): Format[E] = {
+    Format[E](
+      enumlikeJsonReads(r, c),
+      enumlikeJsonWrites(w)
+    )
+  }
 }
 
 object PlayJsonFormatter extends PlayJsonFormatter

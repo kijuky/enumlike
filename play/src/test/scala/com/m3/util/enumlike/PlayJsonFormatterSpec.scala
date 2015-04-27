@@ -19,7 +19,7 @@ class PlayJsonFormatterSpec extends FlatSpec with Matchers with PlayJsonFormatte
   behavior of "JSON serialization"
 
   it should "serialize to a JSON string" in {
-    Json.toJson(Foo.A) should be(JsString("A"))
+    Json.toJson[Foo](Foo.A) should be(JsString("A"))
   }
 
   it should "deserialize from a JSON string" in {

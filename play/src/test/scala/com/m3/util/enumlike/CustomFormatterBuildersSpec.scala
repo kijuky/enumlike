@@ -7,7 +7,7 @@ class CustomFormatterBuildersSpec extends FunSpec with Matchers {
 
   private sealed trait E extends StringEnumLike
 
-  private object E extends EnumCompanion[E] with PlayFormat[E] {
+  private object E extends EnumCompanion[E] with PlayFormat {
 
     case object A extends E
 
